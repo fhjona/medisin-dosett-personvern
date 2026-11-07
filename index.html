@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Personvernerklæring for appen Medisin Dosett. Ingen konto, ingen sporing, og ingen data som forlater telefonen av seg selv.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20108%20108%22%3E%3Crect%20width%3D%22108%22%20height%3D%22108%22%20rx%3D%2224%22%20fill%3D%22%230E6F5C%22%2F%3E%3Cpath%20d%3D%22M32.9%2C42.2H75.1A11.8%2C11.8%200%200%201%2075.1%2C65.8H32.9A11.8%2C11.8%200%200%201%2032.9%2C42.2Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M42.2%2C32.9A11.8%2C11.8%200%200%201%2065.8%2C32.9V75.1A11.8%2C11.8%200%200%201%2042.2%2C75.1Z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<title>Personvern i Medisin Dosett</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* Ett dokument i én spalte. Apotekpaletten fra appen, hårfine linjer i stedet
+   for kort, og monospace på feltnavn og klokkeslett slik tidsskinnen bruker. */
+:root {
+  --bg:        #F4F7F5;
+  --surface:   #FFFFFF;
+  --ink:       #111F1B;
+  --ink-2:     #4A5D57;
+  --ink-3:     #7C8E88;
+  --line:      #D9E3DE;
+  --line-firm: #C3D2CB;
+  --accent:    #0E6F5C;
+  --accent-ink:#0A5646;
+  --accent-bg: #E6F1EC;
+  --flag:      #A85A18;
+  --flag-bg:   #F9EEE2;
+
+  --sans:  "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0C1412;
+    --surface:   #151F1C;
+    --ink:       #E7EFEB;
+    --ink-2:     #A4B6AF;
+    --ink-3:     #7A8D86;
+    --line:      #283833;
+    --line-firm: #35473F;
+    --accent:    #4CC9A7;
+    --accent-ink:#93E6CE;
+    --accent-bg: #14352E;
+    --flag:      #E5A063;
+    --flag-bg:   #3A2A18;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0C1412;
+  --surface:   #151F1C;
+  --ink:       #E7EFEB;
+  --ink-2:     #A4B6AF;
+  --ink-3:     #7A8D86;
+  --line:      #283833;
+  --line-firm: #35473F;
+  --accent:    #4CC9A7;
+  --accent-ink:#93E6CE;
+  --accent-bg: #14352E;
+  --flag:      #E5A063;
+  --flag-bg:   #3A2A18;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+.sheet {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.5rem 4rem;
+}
+
+/* ── Topp ─────────────────────────────────────────────── */
+.masthead { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-end;
+            justify-content: space-between; padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent); }
+.brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.brand svg { flex: none; }
+.brand-name { font-family: var(--sans); font-weight: 700; font-size: .9375rem;
+              letter-spacing: .02em; color: var(--ink); }
+.brand-sub  { font-family: var(--mono); font-size: .75rem; color: var(--ink-3); }
+
+.langs { display: flex; gap: .25rem; }
+.langs button {
+  font-family: var(--sans); font-weight: 600; font-size: .75rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .4rem .7rem; border: 1px solid var(--line-firm); border-radius: 3px;
+  background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.langs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent);
+                                     color: var(--bg); }
+.langs button:focus-visible, a:focus-visible { outline: 2px solid var(--accent);
+                                               outline-offset: 2px; }
+
+h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 7vw, 2.75rem);
+     line-height: 1.1; letter-spacing: -.02em; margin: 2.25rem 0 .75rem;
+     text-wrap: balance; }
+.stamp { font-family: var(--mono); font-size: .8125rem; color: var(--ink-3);
+         display: flex; flex-wrap: wrap; gap: .35rem 1rem; }
+
+/* ── Sammendrag ───────────────────────────────────────── */
+.gist { margin-top: 2rem; border: 1px solid var(--line); background: var(--surface);
+        padding: 1.5rem; display: grid; gap: 1rem; }
+.gist h2 { font-family: var(--sans); font-size: .75rem; font-weight: 700;
+           letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink);
+           margin: 0; }
+.gist ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.gist li { display: grid; grid-template-columns: 1.5rem 1fr; gap: .6rem;
+           align-items: start; min-width: 0; }
+.gist li svg { margin-top: .32em; }
+
+/* ── Avsnitt ──────────────────────────────────────────── */
+section { margin-top: 2.75rem; }
+h2.head { font-family: var(--sans); font-weight: 600; font-size: 1.25rem;
+          letter-spacing: -.01em; margin: 0 0 .65rem; text-wrap: balance;
+          padding-bottom: .5rem; border-bottom: 1px solid var(--line); }
+p { margin: 0 0 1rem; }
+p:last-child { margin-bottom: 0; }
+em { font-style: italic; color: var(--ink); }
+strong { font-weight: 600; }
+
+.fields { list-style: none; margin: 1rem 0; padding: 0;
+          border-top: 1px solid var(--line); }
+.fields li { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+             gap: .25rem 1.25rem; padding: .7rem 0;
+             border-bottom: 1px solid var(--line); }
+.fields dt, .fields .key { font-family: var(--mono); font-size: .8125rem;
+                           color: var(--accent-ink); padding-top: .15em; min-width: 0; }
+.fields .val { font-size: .9375rem; color: var(--ink-2); min-width: 0; }
+@media (max-width: 34rem) { .fields li { grid-template-columns: 1fr; } }
+
+.note { margin-top: 1.25rem; border-left: 3px solid var(--flag);
+        background: var(--flag-bg); padding: 1rem 1.15rem; }
+.note p { font-size: .9375rem; }
+.note .tag { font-family: var(--sans); font-weight: 700; font-size: .6875rem;
+             letter-spacing: .1em; text-transform: uppercase; color: var(--flag);
+             display: block; margin-bottom: .4rem; }
+
+.perm { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.perm li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+           gap: .2rem .9rem; font-size: .9375rem; }
+.perm .key { font-family: var(--mono); font-size: .8125rem; color: var(--accent-ink); }
+.perm .val { color: var(--ink-2); min-width: 0; }
+@media (max-width: 34rem) { .perm li { grid-template-columns: 1fr; } }
+
+footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+         font-family: var(--mono); font-size: .8125rem; color: var(--ink-3); }
+footer p { margin-bottom: .5rem; }
+</style>
+<style>
+/* Det artifact-skjelettet ellers la på: reset, og color-scheme for lys modus. */
+*, *::before, *::after { box-sizing: border-box; }
+:root { color-scheme: light; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="masthead">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 108 108" aria-hidden="true">
+        <rect width="108" height="108" rx="24" fill="var(--accent)"></rect>
+        <path d="M32.9,42.2 H75.1 A11.8,11.8 0 0 1 75.1,65.8 H32.9 A11.8,11.8 0 0 1 32.9,42.2 Z" fill="var(--surface)"></path>
+        <path d="M42.2,32.9 A11.8,11.8 0 0 1 65.8,32.9 V75.1 A11.8,11.8 0 0 1 42.2,75.1 Z" fill="var(--surface)"></path>
+      </svg>
+      <span>
+        <span class="brand-name">Medisin Dosett</span><br>
+        <span class="brand-sub">com.frankjonassen.medisindosett</span>
+      </span>
+    </div>
+    <div class="langs">
+      <button type="button" id="btn-no" aria-pressed="true">Norsk</button>
+      <button type="button" id="btn-en" aria-pressed="false">English</button>
+    </div>
+  </div>
+
+  <!-- ══════════════ NORSK ══════════════ -->
+  <div id="no" lang="nb">
+
+    <h1>Personvern</h1>
+    <p class="stamp"><span>Sist endret 7. november 2026</span><span>Gjelder iPhone og Android</span></p>
+
+    <div class="gist">
+      <h2>Kort fortalt</h2>
+      <ul>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Appen har ingen konto, ingen innlogging, ingen annonser og ingen sporing.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Android-utgaven ber ikke engang om tillatelse til å bruke internett. Den <em>kan</em> ikke sende noe.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Alt du legger inn blir liggende på telefonen din. Utvikleren har ingen tilgang til det.</span>
+        </li>
+      </ul>
+    </div>
+
+    <section>
+      <h2 class="head">Hva appen lagrer</h2>
+      <p>Alt sammen er ting du har skrevet inn selv, eller handlinger du har gjort i appen. Det er ingen felter du ikke ser.</p>
+      <ul class="fields">
+        <li><span class="key">medisiner</span><span class="val">Navn, hva medisinen er for, hva én dose er, merknad, klokkeslett, antall doser per dag og hvor lenge kuren varer.</span></li>
+        <li><span class="key">avkryssinger</span><span class="val">Hvilke doser du har krysset av, hvilken dag, og klokkeslettet avkryssingen ble registrert.</span></li>
+        <li><span class="key">hoppet&nbsp;over</span><span class="val">Doser du har merket som bevisst ikke tatt.</span></li>
+        <li><span class="key">ved&nbsp;behov</span><span class="val">Tidspunktene du har registrert for medisiner som tas ved behov.</span></li>
+        <li><span class="key">innstillinger</span><span class="val">Språk, fargetema, lyd, vibrasjon og valgene dine for påminnelser.</span></li>
+      </ul>
+      <p>Appen samler ikke inn navn, e-postadresse, telefonnummer, posisjon, kontakter, kalender, bilder eller noe annet fra telefonen. Den leser ikke helsedata fra Apple Health eller Health Connect.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Hvor det lagres</h2>
+      <p>I appens eget område på telefonen, som en vanlig fil bare appen leser. På Android ligger den i appens private mappe; på iPhone i appens mappe, delt med widgeten gjennom appgruppen appen eier.</p>
+      <p>Det finnes ingen server. Det er ikke satt opp noen database, ingen konto og ingenting som samler data fra flere telefoner. Utvikleren kan ikke se hva som står i dosetten din.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Telefonens egen sikkerhetskopi</h2>
+      <p>Dette er det ene stedet data kan forlate telefonen, og det er greit å vite om.</p>
+      <p>Både Android og iPhone tar sikkerhetskopi av apper automatisk, hvis du har slått det på. Da blir også filen til Medisin Dosett med — på samme måte som for alle andre apper på telefonen. Kopien går til <strong>din egen</strong> Google-konto eller iCloud-konto, kryptert, og det er Google eller Apple som behandler den etter sine vilkår. Den går ikke til utvikleren, som heller ikke har noen måte å se den på.</p>
+      <div class="note">
+        <span class="tag">Vil du slippe</span>
+        <p>På Android: <em>Innstillinger → Google → Sikkerhetskopi</em>. På iPhone: <em>Innstillinger → [navnet ditt] → iCloud → iCloud-sikkerhetskopi</em>, eller slå av Medisin Dosett i listen over apper. Da ligger dataene bare på telefonen — og forsvinner om du mister den.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="head">Eksport du starter selv</h2>
+      <p>Appen kan lage to filer: en sikkerhetskopi i JSON som appen selv kan lese tilbake, og en lesbar logg til legen. Begge lages bare når du trykker på det, og de blir liggende i appens midlertidige mappe til du velger hvor de skal.</p>
+      <p>Når du har valgt — e-post, meldinger, Filer, hva det måtte være — er filen ute av appens hender og følger reglene til tjenesten du sendte den med. Appen sender ingenting av seg selv.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Påminnelser</h2>
+      <p>Varslene settes opp på telefonen og utløses av telefonen. Ingenting går gjennom en pushtjeneste, og ingen server vet når du skal ta en medisin. Teksten i varselet — navnene på dosene som gjenstår — settes sammen på telefonen i det øyeblikket varselet vises.</p>
+      <p>Varsler er avslått når du installerer appen. Du slår dem på selv under innstillingene.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Tillatelsene appen ber om</h2>
+      <ul class="perm">
+        <li><span class="key">POST_NOTIFICATIONS</span><span class="val">Å vise påminnelsene.</span></li>
+        <li><span class="key">USE_EXACT_ALARM</span><span class="val">At påminnelsen kommer på minuttet og ikke når systemet finner det for godt.</span></li>
+        <li><span class="key">RECEIVE_BOOT_COMPLETED</span><span class="val">Å sette opp påminnelsene på nytt etter at telefonen har startet.</span></li>
+        <li><span class="key">VIBRATE</span><span class="val">Den lille vibrasjonen når du krysser av en dose.</span></li>
+      </ul>
+      <p style="margin-top:1.25rem">Det er hele listen. <strong>Det står ingen internett-tillatelse der</strong>, og uten den kan en Android-app ikke åpne en nettverksforbindelse i det hele tatt. Du kan kontrollere det selv under <em>Appinfo → Tillatelser</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Barn</h2>
+      <p>Appen er laget for voksne som holder styr på egne medisiner, og samler ikke inn noe fra noen — heller ikke fra barn. Den er ikke rettet mot barn under 13 år.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Slette alt</h2>
+      <p>Avinstaller appen, så er det borte. Vil du beholde appen men tømme den, kan du slette medisinene én etter én under innstillingene, eller bruke <em>Appinfo → Lagring → Tøm lagring</em> på Android.</p>
+      <p>Har du latt telefonen ta sikkerhetskopi, ligger det fortsatt en kopi hos Google eller Apple til den går ut på dato eller du sletter sikkerhetskopien der.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Hvis dette endrer seg</h2>
+      <p>Skulle en senere utgave av appen begynne å behandle data på en annen måte, blir denne siden oppdatert, og datoen øverst endret, før utgaven slippes. Erklæringen gjelder appen Medisin Dosett på iPhone og Android.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Kontakt</h2>
+      <p>Spørsmål om personvern kan sendes til utvikleren. Kontaktadressen står nederst i appens oppføring i Google Play, under <em>Appstøtte</em>.</p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>Appen er et hjelpemiddel for å huske doser og gir ikke medisinske råd.</p>
+    </footer>
+  </div>
+
+  <!-- ══════════════ ENGLISH ══════════════ -->
+  <div id="en" lang="en" hidden>
+
+    <h1>Privacy</h1>
+    <p class="stamp"><span>Last changed 7 November 2026</span><span>Applies to iPhone and Android</span></p>
+
+    <div class="gist">
+      <h2>In short</h2>
+      <ul>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>No account, no sign-in, no ads and no tracking.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>The Android build does not even request internet permission. It <em>cannot</em> send anything.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Everything you enter stays on your phone. The developer has no access to it.</span>
+        </li>
+      </ul>
+    </div>
+
+    <section>
+      <h2 class="head">What the app stores</h2>
+      <p>All of it is something you typed in yourself, or something you did in the app. There are no hidden fields.</p>
+      <ul class="fields">
+        <li><span class="key">medicines</span><span class="val">Name, what the medicine is for, what one dose is, a note, times of day, doses per day and how long the course runs.</span></li>
+        <li><span class="key">checked&nbsp;off</span><span class="val">Which doses you ticked, on which day, and the time the tick was recorded.</span></li>
+        <li><span class="key">skipped</span><span class="val">Doses you marked as deliberately not taken.</span></li>
+        <li><span class="key">as&nbsp;needed</span><span class="val">The times you logged for medicines taken as needed.</span></li>
+        <li><span class="key">settings</span><span class="val">Language, colour theme, sound, vibration and your reminder choices.</span></li>
+      </ul>
+      <p>The app collects no name, email address, phone number, location, contacts, calendar or photos. It does not read health data from Apple Health or Health Connect.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Where it is stored</h2>
+      <p>In the app's own area on your phone, as an ordinary file only the app reads. On Android that is the app's private directory; on iPhone it is the app's directory, shared with the widget through the app group the app owns.</p>
+      <p>There is no server. No database was set up, there are no accounts, and nothing gathers data across phones. The developer cannot see what is in your pill organiser.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Your phone's own backup</h2>
+      <p>This is the one place data can leave the phone, and it is worth knowing about.</p>
+      <p>Both Android and iPhone back apps up automatically if you have that turned on, and the Medisin Dosett file goes along with it, the same as every other app on the phone. The copy goes to <strong>your own</strong> Google or iCloud account, encrypted, and Google or Apple handles it under their terms. It does not go to the developer, who has no way to see it either.</p>
+      <div class="note">
+        <span class="tag">To opt out</span>
+        <p>On Android: <em>Settings → Google → Backup</em>. On iPhone: <em>Settings → [your name] → iCloud → iCloud Backup</em>, or switch Medisin Dosett off in the list of apps. Your data then lives only on the phone — and goes with it if you lose it.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="head">Exports you start yourself</h2>
+      <p>The app can write two files: a JSON backup it can read back in, and a readable log for your doctor. Both are written only when you tap for them, and they sit in the app's temporary folder until you choose where they go.</p>
+      <p>Once you have chosen — email, messages, Files, whatever it is — the file is out of the app's hands and follows the rules of the service you sent it with. The app sends nothing on its own.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Reminders</h2>
+      <p>Notifications are scheduled on the phone and fired by the phone. Nothing goes through a push service, and no server knows when you are due to take anything. The text of a reminder — the names of the doses still outstanding — is assembled on the phone at the moment it appears.</p>
+      <p>Reminders are off when you install the app. You turn them on yourself in the settings.</p>
+    </section>
+
+    <section>
+      <h2 class="head">The permissions the app asks for</h2>
+      <ul class="perm">
+        <li><span class="key">POST_NOTIFICATIONS</span><span class="val">To show the reminders.</span></li>
+        <li><span class="key">USE_EXACT_ALARM</span><span class="val">So a reminder lands on the minute rather than whenever the system gets around to it.</span></li>
+        <li><span class="key">RECEIVE_BOOT_COMPLETED</span><span class="val">To set the reminders up again after the phone restarts.</span></li>
+        <li><span class="key">VIBRATE</span><span class="val">The small buzz when you tick off a dose.</span></li>
+      </ul>
+      <p style="margin-top:1.25rem">That is the whole list. <strong>There is no internet permission on it</strong>, and without one an Android app cannot open a network connection at all. You can check this yourself under <em>App info → Permissions</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Children</h2>
+      <p>The app is built for adults keeping track of their own medicines, and collects nothing from anyone, children included. It is not directed at children under 13.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Deleting everything</h2>
+      <p>Uninstall the app and it is gone. To keep the app but empty it, delete the medicines one by one in the settings, or use <em>App info → Storage → Clear storage</em> on Android.</p>
+      <p>If you let the phone take backups, a copy still sits with Google or Apple until it expires or you delete the backup there.</p>
+    </section>
+
+    <section>
+      <h2 class="head">If this changes</h2>
+      <p>Should a later release handle data differently, this page is updated, and the date at the top changed, before that release ships. This notice covers the Medisin Dosett app on iPhone and Android.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Contact</h2>
+      <p>Questions about privacy can be sent to the developer. The contact address is at the bottom of the app's Google Play listing, under <em>App support</em>.</p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>The app is an aid for remembering doses and does not give medical advice.</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+(function () {
+  var panes = { norsk: document.getElementById('no'), english: document.getElementById('en') };
+  var buttons = { norsk: document.getElementById('btn-no'), english: document.getElementById('btn-en') };
+
+  function show(which) {
+    if (!panes[which]) which = 'norsk';
+    Object.keys(panes).forEach(function (key) {
+      panes[key].hidden = key !== which;
+      buttons[key].setAttribute('aria-pressed', String(key === which));
+    });
+    document.documentElement.lang = which === 'english' ? 'en' : 'nb';
+  }
+
+  function fromHash() {
+    return location.hash.replace('#', '') === 'english' ? 'english' : 'norsk';
+  }
+
+  Object.keys(buttons).forEach(function (key) {
+    buttons[key].addEventListener('click', function () {
+      location.hash = key === 'english' ? 'english' : 'norsk';
+      show(key);
+    });
+  });
+
+  window.addEventListener('hashchange', function () { show(fromHash()); });
+  show(fromHash());
+})();
+</script>
+</body>
+</html>
