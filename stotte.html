@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Støtte for appen Medisin Dosett. Kontakt, svar på de vanligste spørsmålene, og hva du gjør når påminnelsene ikke kommer.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20108%20108%22%3E%3Crect%20width%3D%22108%22%20height%3D%22108%22%20rx%3D%2224%22%20fill%3D%22%230E6F5C%22%2F%3E%3Cpath%20d%3D%22M32.9%2C42.2H75.1A11.8%2C11.8%200%200%201%2075.1%2C65.8H32.9A11.8%2C11.8%200%200%201%2032.9%2C42.2Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M42.2%2C32.9A11.8%2C11.8%200%200%201%2065.8%2C32.9V75.1A11.8%2C11.8%200%200%201%2042.2%2C75.1Z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<title>Støtte for Medisin Dosett</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* Ett dokument i én spalte. Apotekpaletten fra appen, hårfine linjer i stedet
+   for kort, og monospace på feltnavn og klokkeslett slik tidsskinnen bruker. */
+:root {
+  --bg:        #F4F7F5;
+  --surface:   #FFFFFF;
+  --ink:       #111F1B;
+  --ink-2:     #4A5D57;
+  --ink-3:     #7C8E88;
+  --line:      #D9E3DE;
+  --line-firm: #C3D2CB;
+  --accent:    #0E6F5C;
+  --accent-ink:#0A5646;
+  --accent-bg: #E6F1EC;
+  --flag:      #A85A18;
+  --flag-bg:   #F9EEE2;
+
+  --sans:  "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0C1412;
+    --surface:   #151F1C;
+    --ink:       #E7EFEB;
+    --ink-2:     #A4B6AF;
+    --ink-3:     #7A8D86;
+    --line:      #283833;
+    --line-firm: #35473F;
+    --accent:    #4CC9A7;
+    --accent-ink:#93E6CE;
+    --accent-bg: #14352E;
+    --flag:      #E5A063;
+    --flag-bg:   #3A2A18;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0C1412;
+  --surface:   #151F1C;
+  --ink:       #E7EFEB;
+  --ink-2:     #A4B6AF;
+  --ink-3:     #7A8D86;
+  --line:      #283833;
+  --line-firm: #35473F;
+  --accent:    #4CC9A7;
+  --accent-ink:#93E6CE;
+  --accent-bg: #14352E;
+  --flag:      #E5A063;
+  --flag-bg:   #3A2A18;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+.sheet {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.5rem 4rem;
+}
+
+/* ── Topp ─────────────────────────────────────────────── */
+.masthead { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-end;
+            justify-content: space-between; padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent); }
+.brand { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.brand svg { flex: none; }
+.brand-name { font-family: var(--sans); font-weight: 700; font-size: .9375rem;
+              letter-spacing: .02em; color: var(--ink); }
+.brand-sub  { font-family: var(--mono); font-size: .75rem; color: var(--ink-3); }
+
+.langs { display: flex; gap: .25rem; }
+.langs button {
+  font-family: var(--sans); font-weight: 600; font-size: .75rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .4rem .7rem; border: 1px solid var(--line-firm); border-radius: 3px;
+  background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.langs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent);
+                                     color: var(--bg); }
+.langs button:focus-visible, a:focus-visible { outline: 2px solid var(--accent);
+                                               outline-offset: 2px; }
+
+h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 7vw, 2.75rem);
+     line-height: 1.1; letter-spacing: -.02em; margin: 2.25rem 0 .75rem;
+     text-wrap: balance; }
+.stamp { font-family: var(--mono); font-size: .8125rem; color: var(--ink-3);
+         display: flex; flex-wrap: wrap; gap: .35rem 1rem; }
+
+/* ── Sammendrag ───────────────────────────────────────── */
+.gist { margin-top: 2rem; border: 1px solid var(--line); background: var(--surface);
+        padding: 1.5rem; display: grid; gap: 1rem; }
+.gist h2 { font-family: var(--sans); font-size: .75rem; font-weight: 700;
+           letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink);
+           margin: 0; }
+.gist ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.gist li { display: grid; grid-template-columns: 1.5rem 1fr; gap: .6rem;
+           align-items: start; min-width: 0; }
+.gist li svg { margin-top: .32em; }
+
+/* ── Avsnitt ──────────────────────────────────────────── */
+section { margin-top: 2.75rem; }
+h2.head { font-family: var(--sans); font-weight: 600; font-size: 1.25rem;
+          letter-spacing: -.01em; margin: 0 0 .65rem; text-wrap: balance;
+          padding-bottom: .5rem; border-bottom: 1px solid var(--line); }
+p { margin: 0 0 1rem; }
+p:last-child { margin-bottom: 0; }
+em { font-style: italic; color: var(--ink); }
+strong { font-weight: 600; }
+
+.fields { list-style: none; margin: 1rem 0; padding: 0;
+          border-top: 1px solid var(--line); }
+.fields li { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+             gap: .25rem 1.25rem; padding: .7rem 0;
+             border-bottom: 1px solid var(--line); }
+.fields dt, .fields .key { font-family: var(--mono); font-size: .8125rem;
+                           color: var(--accent-ink); padding-top: .15em; min-width: 0; }
+.fields .val { font-size: .9375rem; color: var(--ink-2); min-width: 0; }
+@media (max-width: 34rem) { .fields li { grid-template-columns: 1fr; } }
+
+.note { margin-top: 1.25rem; border-left: 3px solid var(--flag);
+        background: var(--flag-bg); padding: 1rem 1.15rem; }
+.note p { font-size: .9375rem; }
+.note .tag { font-family: var(--sans); font-weight: 700; font-size: .6875rem;
+             letter-spacing: .1em; text-transform: uppercase; color: var(--flag);
+             display: block; margin-bottom: .4rem; }
+
+.perm { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.perm li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+           gap: .2rem .9rem; font-size: .9375rem; }
+.perm .key { font-family: var(--mono); font-size: .8125rem; color: var(--accent-ink); }
+.perm .val { color: var(--ink-2); min-width: 0; }
+@media (max-width: 34rem) { .perm li { grid-template-columns: 1fr; } }
+
+footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+         font-family: var(--mono); font-size: .8125rem; color: var(--ink-3); }
+footer p { margin-bottom: .5rem; }
+</style>
+<style>
+/* Det artifact-skjelettet ellers la på: reset, og color-scheme for lys modus. */
+*, *::before, *::after { box-sizing: border-box; }
+:root { color-scheme: light; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="masthead">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 108 108" aria-hidden="true">
+        <rect width="108" height="108" rx="24" fill="var(--accent)"></rect>
+        <path d="M32.9,42.2 H75.1 A11.8,11.8 0 0 1 75.1,65.8 H32.9 A11.8,11.8 0 0 1 32.9,42.2 Z" fill="var(--surface)"></path>
+        <path d="M42.2,32.9 A11.8,11.8 0 0 1 65.8,32.9 V75.1 A11.8,11.8 0 0 1 42.2,75.1 Z" fill="var(--surface)"></path>
+      </svg>
+      <span>
+        <span class="brand-name">Medisin Dosett</span><br>
+        <span class="brand-sub">com.frankjonassen.medisindosett</span>
+      </span>
+    </div>
+    <div class="langs">
+      <button type="button" id="btn-no" aria-pressed="true">Norsk</button>
+      <button type="button" id="btn-en" aria-pressed="false">English</button>
+      <button type="button" id="btn-pt" aria-pressed="false">Português</button>
+    </div>
+  </div>
+
+  <div id="no" lang="nb">
+
+    <h1>Støtte</h1>
+    <p class="stamp"><span>Sist endret 8. november 2026</span></p>
+
+    <div class="gist">
+      <h2>Kontakt</h2>
+      <ul class="fields" style="margin:0;border-top:none">
+        <li><span class="key">e-post</span><span class="val"><a href="mailto:frankhelge62@gmail.com">frankhelge62@gmail.com</a></span></li>
+      </ul>
+      <p style="font-size:.9375rem;color:var(--ink-2);margin:0">Medisin Dosett er laget av én person. Skriv på norsk eller engelsk, så svarer jeg så fort jeg rekker. Ta med hvilken telefon du har og hvilken versjon av iOS eller Android den kjører — det kutter som regel en runde fram og tilbake.</p>
+    </div>
+
+    <section>
+      <h2 class="head">Jeg får ingen påminnelser</h2>
+      <p>Sjekk først at <em>Påminnelser</em> står på under innstillingene i appen. Står det en oransje linje der, sier den hva som mangler.</p>
+      <p><strong>På iPhone:</strong> <em>Innstillinger → Medisin Dosett → Varsler</em>. Appen spør én gang, og sier du nei der, må det slås på her etterpå.</p>
+      <p><strong>På Android:</strong> appen trenger to ting. Varsler slås på under <em>Appinfo → Varsler</em>. I tillegg ber appen om lov til å bruke presise alarmer — uten den kommer påminnelsen omtrent på tiden i stedet for på minuttet, og kan bli utsatt hvis telefonen har ligget urørt. Står tillatelsen og mangler, vises en knapp rett under påminnelsesbryteren som tar deg til riktig systeminnstilling.</p>
+      <p>Noen telefoner, særlig fra Samsung, Xiaomi og Huawei, har en egen batterisparing som stopper apper fra å vekke seg selv. Finn Medisin Dosett i batteriinnstillingene og sett den til <em>ubegrenset</em> eller <em>ikke optimaliser</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Dosetten er tom når jeg åpner appen</h2>
+      <p>Det skal den være. Appen vet ingenting om hvilke medisiner du tar, og skal ikke gjette. Trykk pluss øverst til høyre for å legge inn den første.</p>
+      <p>Vil du se hvordan appen ser ut i bruk før du legger inn noe selv, ligger det en oppdiktet eksempelkur under <em>Innstillinger → Legg inn eksempelkuren</em>. Den er ikke noens faktiske resept, og du kan slette den igjen når som helst.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Jeg har byttet telefon</h2>
+      <p>Under <em>Innstillinger → Sikkerhetskopi</em> kan du eksportere hele dosetten som en fil, og lese den inn igjen på den nye telefonen.</p>
+      <p>Filen er den samme på iPhone og Android, så den virker også om du bytter fra den ene til den andre.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Hva er forskjellen på hoppet over og glemt?</h2>
+      <p>En dose du bevisst lar være å ta kan merkes som <em>hoppet over</em>. Den teller ikke som en glipp, og historikken holder de to fra hverandre. Det er nyttig når legen spør hvordan det har gått: det er forskjell på å ha latt være med vilje og å ha glemt.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Virker appen på iPad?</h2>
+      <p>Den kan installeres og brukes, men den er laget for iPhone og kjører i iPhone-format på en iPad. Det finnes ingen egen iPad-utgave ennå.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Appen gir ikke medisinske råd</h2>
+      <p>Medisin Dosett er et hjelpemiddel for å huske doser, ikke noe mer. Den vurderer ikke doseringer, advarer ikke mot kombinasjoner og erstatter ikke det legen eller apoteket har sagt. Er du i tvil om medisinene dine, spør dem.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Personvern</h2>
+      <p><a href="./">Hva appen lagrer, hvor det ligger, og hvorfor ingenting sendes noe sted →</a></p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>Appen er et hjelpemiddel for å huske doser og gir ikke medisinske råd.</p>
+    </footer>
+  </div>
+
+  <div id="en" lang="en" hidden>
+
+    <h1>Support</h1>
+    <p class="stamp"><span>Last changed 8 November 2026</span></p>
+
+    <div class="gist">
+      <h2>Contact</h2>
+      <ul class="fields" style="margin:0;border-top:none">
+        <li><span class="key">e-post</span><span class="val"><a href="mailto:frankhelge62@gmail.com">frankhelge62@gmail.com</a></span></li>
+      </ul>
+      <p style="font-size:.9375rem;color:var(--ink-2);margin:0">Medisin Dosett is made by one person. Write in English or Norwegian and I will answer as soon as I can. Include which phone you have and which version of iOS or Android it runs — that usually saves a round trip.</p>
+    </div>
+
+    <section>
+      <h2 class="head">I am not getting any reminders</h2>
+      <p>First check that <em>Reminders</em> is on in the app's settings. If there is an orange line there, it says what is missing.</p>
+      <p><strong>On iPhone:</strong> <em>Settings → Medisin Dosett → Notifications</em>. The app asks once, and if you said no, it has to be turned on here afterwards.</p>
+      <p><strong>On Android:</strong> the app needs two things. Notifications are turned on under <em>App info → Notifications</em>. On top of that the app asks permission to use exact alarms — without it a reminder arrives around the right time rather than on the minute, and can be delayed if the phone has been sitting untouched. When that permission is missing, a button appears right under the reminders switch that takes you to the right system setting.</p>
+      <p>Some phones, Samsung, Xiaomi and Huawei in particular, have their own battery saver that stops apps from waking themselves. Find Medisin Dosett in the battery settings and set it to <em>unrestricted</em> or <em>don't optimise</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">The organiser is empty when I open the app</h2>
+      <p>It is meant to be. The app knows nothing about which medicines you take, and should not guess. Tap the plus at the top right to add the first one.</p>
+      <p>If you want to see what the app looks like in use before entering anything yourself, there is a made-up example course under <em>Settings → Load the example course</em>. It is not anyone's actual prescription, and you can delete it again at any time.</p>
+    </section>
+
+    <section>
+      <h2 class="head">I have changed phones</h2>
+      <p>Under <em>Settings → Backup</em> you can export the whole organiser as a file and read it back in on the new phone.</p>
+      <p>The file is the same on iPhone and Android, so it also works if you move from one to the other.</p>
+    </section>
+
+    <section>
+      <h2 class="head">What is the difference between skipped and missed?</h2>
+      <p>A dose you deliberately leave out can be marked as <em>skipped</em>. It does not count as a miss, and the history keeps the two apart. That matters when your doctor asks how it has been going: leaving a dose out on purpose is not the same as forgetting it.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Does the app work on iPad?</h2>
+      <p>It can be installed and used, but it is built for iPhone and runs at iPhone size on an iPad. There is no separate iPad edition yet.</p>
+    </section>
+
+    <section>
+      <h2 class="head">The app does not give medical advice</h2>
+      <p>Medisin Dosett is an aid for remembering doses, nothing more. It does not assess dosages, does not warn about combinations, and does not replace what your doctor or pharmacist has told you. If you are unsure about your medicines, ask them.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Privacy</h2>
+      <p><a href="./">What the app stores, where it lives, and why nothing is sent anywhere →</a></p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>The app is an aid for remembering doses and does not give medical advice.</p>
+    </footer>
+  </div>
+
+  <div id="pt" lang="pt-BR" hidden>
+
+    <h1>Suporte</h1>
+    <p class="stamp"><span>Última alteração em 8 de novembro de 2026</span></p>
+
+    <div class="gist">
+      <h2>Contato</h2>
+      <ul class="fields" style="margin:0;border-top:none">
+        <li><span class="key">e-post</span><span class="val"><a href="mailto:frankhelge62@gmail.com">frankhelge62@gmail.com</a></span></li>
+      </ul>
+      <p style="font-size:.9375rem;color:var(--ink-2);margin:0">O Medisin Dosett é feito por uma pessoa só. Escreva em português, inglês ou norueguês, que eu respondo assim que der. Diga qual celular você tem e qual versão de iOS ou Android ele roda — isso costuma economizar uma ida e volta.</p>
+    </div>
+
+    <section>
+      <h2 class="head">Não estou recebendo lembretes</h2>
+      <p>Primeiro verifique se <em>Lembretes</em> está ligado nos ajustes do app. Se houver uma linha laranja ali, ela diz o que está faltando.</p>
+      <p><strong>No iPhone:</strong> <em>Ajustes → Medisin Dosett → Notificações</em>. O app pergunta uma vez, e se você disse não, precisa ligar por aqui depois.</p>
+      <p><strong>No Android:</strong> o app precisa de duas coisas. As notificações se ligam em <em>Informações do app → Notificações</em>. Além disso o app pede permissão para usar alarmes exatos — sem ela o lembrete chega por volta da hora certa em vez de na hora exata, e pode atrasar se o celular ficar parado. Quando essa permissão falta, aparece um botão logo abaixo do interruptor de lembretes que leva ao ajuste certo do sistema.</p>
+      <p>Alguns celulares, principalmente Samsung, Xiaomi e Huawei, têm uma economia de bateria própria que impede os apps de se acordarem. Procure o Medisin Dosett nos ajustes de bateria e marque como <em>sem restrição</em> ou <em>não otimizar</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">O organizador está vazio quando abro o app</h2>
+      <p>É para estar mesmo. O app não sabe quais remédios você toma, e não deve adivinhar. Toque no mais, no canto superior direito, para cadastrar o primeiro.</p>
+      <p>Se quiser ver como o app fica em uso antes de cadastrar qualquer coisa, há um tratamento de exemplo inventado em <em>Configurações → Carregar o tratamento de exemplo</em>. Não é a receita de ninguém, e você pode apagá-lo quando quiser.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Troquei de celular</h2>
+      <p>Em <em>Configurações → Backup</em> você pode exportar o organizador inteiro como arquivo e lê-lo de volta no celular novo.</p>
+      <p>O arquivo é o mesmo no iPhone e no Android, então funciona também se você mudar de um para o outro.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Qual a diferença entre pulada e esquecida?</h2>
+      <p>Uma dose que você decide não tomar pode ser marcada como <em>pulada</em>. Ela não conta como falha, e o histórico separa as duas coisas. Isso importa quando o médico pergunta como foi: deixar de tomar de propósito não é o mesmo que esquecer.</p>
+    </section>
+
+    <section>
+      <h2 class="head">O app funciona no iPad?</h2>
+      <p>Dá para instalar e usar, mas ele foi feito para iPhone e roda em tamanho de iPhone no iPad. Ainda não existe uma versão própria para iPad.</p>
+    </section>
+
+    <section>
+      <h2 class="head">O app não dá orientação médica</h2>
+      <p>O Medisin Dosett é uma ajuda para lembrar das doses, nada além disso. Ele não avalia doses, não avisa sobre combinações e não substitui o que o seu médico ou farmacêutico disse. Em caso de dúvida sobre os seus remédios, pergunte a eles.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Privacidade</h2>
+      <p><a href="./">O que o app guarda, onde fica, e por que nada é enviado para lugar nenhum →</a></p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>O app é uma ajuda para lembrar das doses e não dá orientação médica.</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+(function () {
+  var tags = { norsk: 'nb', english: 'en', portugues: 'pt-BR' };
+  var panes = {
+    norsk: document.getElementById('no'),
+    english: document.getElementById('en'),
+    portugues: document.getElementById('pt'),
+  };
+  var buttons = {
+    norsk: document.getElementById('btn-no'),
+    english: document.getElementById('btn-en'),
+    portugues: document.getElementById('btn-pt'),
+  };
+
+  function show(which) {
+    if (!panes[which]) which = 'norsk';
+    Object.keys(panes).forEach(function (key) {
+      panes[key].hidden = key !== which;
+      buttons[key].setAttribute('aria-pressed', String(key === which));
+    });
+    document.documentElement.lang = tags[which];
+  }
+
+  function fromHash() {
+    var h = location.hash.replace('#', '');
+    return panes[h] ? h : 'norsk';
+  }
+
+  Object.keys(buttons).forEach(function (key) {
+    buttons[key].addEventListener('click', function () {
+      location.hash = key;
+      show(key);
+    });
+  });
+
+  window.addEventListener('hashchange', function () { show(fromHash()); });
+  show(fromHash());
+})();
+</script>
+</body>
+</html>

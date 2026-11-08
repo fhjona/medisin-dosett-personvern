@@ -8,8 +8,10 @@ og som er oppgitt som personvernerklæring for appen **Medisin Dosett**
 Norsk, engelsk og portugisisk (Brasil) på samme side, med en velger øverst. Den engelske utgaven har
 sin egen adresse med `#english` på slutten, den portugisiske med `#portugues`.
 
-Hele siden er `index.html` — ingen byggesteg, ingen avhengigheter utenom
-skriftene fra Google Fonts.
+Siden er `index.html`. Ved siden av ligger `stotte.html` — støttesiden som er
+oppgitt som Support URL i App Store og Google Play, med kontakt og svar på de
+vanligste spørsmålene, på de samme tre språkene. Begge er én fil hver, ingen
+byggesteg, ingen avhengigheter utenom skriftene fra Google Fonts.
 
 ## Når den må endres
 
