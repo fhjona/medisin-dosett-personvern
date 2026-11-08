@@ -5,8 +5,8 @@ Siden som ligger på
 og som er oppgitt som personvernerklæring for appen **Medisin Dosett**
 (`com.frankjonassen.medisindosett`) i Google Play og App Store.
 
-Norsk og engelsk på samme side, med en velger øverst. Den engelske utgaven har
-sin egen adresse med `#english` på slutten.
+Norsk, engelsk og portugisisk (Brasil) på samme side, med en velger øverst. Den engelske utgaven har
+sin egen adresse med `#english` på slutten, den portugisiske med `#portugues`.
 
 Hele siden er `index.html` — ingen byggesteg, ingen avhengigheter utenom
 skriftene fra Google Fonts.

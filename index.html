@@ -186,6 +186,7 @@ img { max-width: 100%; }
     <div class="langs">
       <button type="button" id="btn-no" aria-pressed="true">Norsk</button>
       <button type="button" id="btn-en" aria-pressed="false">English</button>
+      <button type="button" id="btn-pt" aria-pressed="false">Português</button>
     </div>
   </div>
 
@@ -394,12 +395,124 @@ img { max-width: 100%; }
       <p>The app is an aid for remembering doses and does not give medical advice.</p>
     </footer>
   </div>
+
+  <!-- ══════════════ PORTUGUÊS (BRASIL) ══════════════ -->
+  <div id="pt" lang="pt-BR" hidden>
+
+    <h1>Privacidade</h1>
+    <p class="stamp"><span>Última alteração em 7 de novembro de 2026</span><span>Vale para iPhone e Android</span></p>
+
+    <div class="gist">
+      <h2>Em resumo</h2>
+      <ul>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Sem conta, sem login, sem anúncios e sem rastreamento.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>A versão Android nem pede permissão de internet. Ela <em>não consegue</em> enviar nada.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>Tudo o que você digita fica no seu celular. O desenvolvedor não tem acesso.</span>
+        </li>
+      </ul>
+    </div>
+
+    <section>
+      <h2 class="head">O que o app guarda</h2>
+      <p>Tudo isso é coisa que você mesmo digitou, ou que você fez dentro do app. Não há campos escondidos.</p>
+      <ul class="fields">
+        <li><span class="key">remédios</span><span class="val">Nome, para que serve, o que é uma dose, uma observação, horários, doses por dia e quanto tempo dura o tratamento.</span></li>
+        <li><span class="key">marcados</span><span class="val">Quais doses você marcou, em que dia, e o horário em que a marcação foi registrada.</span></li>
+        <li><span class="key">pulados</span><span class="val">Doses que você marcou como não tomadas de propósito.</span></li>
+        <li><span class="key">se&nbsp;necessário</span><span class="val">Os horários que você registrou para remédios tomados se necessário.</span></li>
+        <li><span class="key">ajustes</span><span class="val">Idioma, tema de cor, som, vibração e as suas escolhas de lembrete.</span></li>
+      </ul>
+      <p>O app não coleta nome, e-mail, telefone, localização, contatos, agenda nem fotos. Ele não lê dados de saúde do Apple Health nem do Health Connect.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Onde fica guardado</h2>
+      <p>Na área do próprio app no seu celular, como um arquivo comum que só o app lê. No Android é o diretório privado do app; no iPhone é o diretório do app, compartilhado com o widget pelo grupo que pertence ao app.</p>
+      <p>Não existe servidor. Nenhum banco de dados foi criado, não há contas, e nada junta dados entre celulares. O desenvolvedor não consegue ver o que está na sua caixa de remédios.</p>
+    </section>
+
+    <section>
+      <h2 class="head">O backup do próprio celular</h2>
+      <p>Este é o único lugar por onde os dados podem sair do celular, e vale a pena saber disso.</p>
+      <p>Tanto o Android quanto o iPhone fazem backup dos apps automaticamente, se você deixou isso ligado, e o arquivo do Medisin Dosett vai junto, igual ao de qualquer outro app. A cópia vai para a <strong>sua própria</strong> conta Google ou iCloud, criptografada, e o Google ou a Apple cuida dela segundo os termos deles. Ela não vai para o desenvolvedor, que também não tem como vê-la.</p>
+      <div class="note">
+        <span class="tag">Para desativar</span>
+        <p>No Android: <em>Configurações → Google → Backup</em>. No iPhone: <em>Ajustes → [seu nome] → iCloud → Backup do iCloud</em>, ou desligue o Medisin Dosett na lista de apps. Aí os seus dados ficam só no celular — e vão embora com ele se você perdê-lo.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="head">Exportações que você mesmo inicia</h2>
+      <p>O app pode gravar dois arquivos: um backup em JSON que ele consegue ler de volta, e um relatório legível para o seu médico. Os dois só são criados quando você toca para isso, e ficam na pasta temporária do app até você escolher para onde eles vão.</p>
+      <p>Depois que você escolheu — e-mail, mensagem, Arquivos, o que for — o arquivo sai das mãos do app e passa a seguir as regras do serviço que você usou. O app não envia nada por conta própria.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Lembretes</h2>
+      <p>As notificações são agendadas no celular e disparadas pelo celular. Nada passa por serviço de push, e nenhum servidor sabe quando você precisa tomar alguma coisa. O texto do lembrete — os nomes das doses que ainda faltam — é montado no celular no momento em que ele aparece.</p>
+      <p>Os lembretes vêm desligados quando você instala o app. Você mesmo liga nos ajustes.</p>
+    </section>
+
+    <section>
+      <h2 class="head">As permissões que o app pede</h2>
+      <ul class="perm">
+        <li><span class="key">POST_NOTIFICATIONS</span><span class="val">Para mostrar os lembretes.</span></li>
+        <li><span class="key">SCHEDULE_EXACT_ALARM</span><span class="val">Para o lembrete chegar na hora certa, e não quando o sistema achar melhor. Esta você mesmo concede nos ajustes do celular, e o app funciona sem ela — os lembretes então chegam por volta da hora.</span></li>
+        <li><span class="key">RECEIVE_BOOT_COMPLETED</span><span class="val">Para remontar os lembretes depois que o celular reinicia.</span></li>
+        <li><span class="key">VIBRATE</span><span class="val">A vibração curta quando você marca uma dose.</span></li>
+      </ul>
+      <p style="margin-top:1.25rem">É a lista inteira. <strong>Não há permissão de internet nela</strong>, e sem ela um app Android não consegue abrir conexão de rede de jeito nenhum. Você pode conferir isso em <em>Informações do app → Permissões</em>.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Crianças</h2>
+      <p>O app foi feito para adultos acompanharem os próprios remédios, e não coleta nada de ninguém, crianças incluídas. Ele não é direcionado a menores de 13 anos.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Apagar tudo</h2>
+      <p>Desinstale o app e acabou. Para manter o app mas esvaziá-lo, apague os remédios um a um nos ajustes, ou use <em>Informações do app → Armazenamento → Limpar armazenamento</em> no Android.</p>
+      <p>Se você deixa o celular fazer backup, uma cópia continua com o Google ou a Apple até expirar ou até você apagar o backup por lá.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Se isto mudar</h2>
+      <p>Se uma versão futura tratar os dados de outra forma, esta página é atualizada, e a data no topo trocada, antes daquela versão sair. Este aviso vale para o app Medisin Dosett no iPhone e no Android.</p>
+    </section>
+
+    <section>
+      <h2 class="head">Contato</h2>
+      <p>Dúvidas sobre privacidade podem ser enviadas ao desenvolvedor. O endereço de contato fica no rodapé da página do app no Google Play, em <em>Suporte do app</em>.</p>
+    </section>
+
+    <footer>
+      <p>Medisin Dosett · HelgeLabs</p>
+      <p>O app é uma ajuda para lembrar das doses e não dá orientação médica.</p>
+    </footer>
+  </div>
 </div>
 
 <script>
 (function () {
-  var panes = { norsk: document.getElementById('no'), english: document.getElementById('en') };
-  var buttons = { norsk: document.getElementById('btn-no'), english: document.getElementById('btn-en') };
+  var tags = { norsk: 'nb', english: 'en', portugues: 'pt-BR' };
+  var panes = {
+    norsk: document.getElementById('no'),
+    english: document.getElementById('en'),
+    portugues: document.getElementById('pt'),
+  };
+  var buttons = {
+    norsk: document.getElementById('btn-no'),
+    english: document.getElementById('btn-en'),
+    portugues: document.getElementById('btn-pt'),
+  };
 
   function show(which) {
     if (!panes[which]) which = 'norsk';
@@ -407,16 +520,17 @@ img { max-width: 100%; }
       panes[key].hidden = key !== which;
       buttons[key].setAttribute('aria-pressed', String(key === which));
     });
-    document.documentElement.lang = which === 'english' ? 'en' : 'nb';
+    document.documentElement.lang = tags[which];
   }
 
   function fromHash() {
-    return location.hash.replace('#', '') === 'english' ? 'english' : 'norsk';
+    var h = location.hash.replace('#', '');
+    return panes[h] ? h : 'norsk';
   }
 
   Object.keys(buttons).forEach(function (key) {
     buttons[key].addEventListener('click', function () {
-      location.hash = key === 'english' ? 'english' : 'norsk';
+      location.hash = key;
       show(key);
     });
   });
